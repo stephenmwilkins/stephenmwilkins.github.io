@@ -1,3 +1,6 @@
+
+
+
 $(document).ready(function() {
 
   // Variables
@@ -53,6 +56,19 @@ $(document).ready(function() {
       $('.popover').removeClass('open')
     }
   }
+
+
+  $(function() {
+    $(".social")
+        .mouseover(function() {
+            var src = $(this).attr("src").match(/[^\.]+/) + "_over.png";
+            $(this).attr("src", src);
+        })
+        .mouseout(function() {
+            var src = $(this).attr("src").replace("_over.png", ".png");
+            $(this).attr("src", src);
+        });
+});
 
   $("#button").click(function() {
     $('html, body').animate({
