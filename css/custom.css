@@ -6,7 +6,11 @@
 
 .logo {
   height: 100px;
+  opacity: 0.5;
   display: inline-block;
+}
+.logo:hover {
+  opacity: 1.0;
 }
 
 .container {
