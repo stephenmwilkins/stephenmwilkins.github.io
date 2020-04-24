@@ -1,11 +1,17 @@
 
 .social {
   height: 40px;
+  padding: 5px;
+  opacity: 0.5;
   display: inline-block;
+}
+.social:hover {
+  opacity: 1.0;
 }
 
 .logo {
-  height: 100px;
+  height: 75px;
+  padding: 5px;
   opacity: 0.5;
   display: inline-block;
 }
