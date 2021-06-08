@@ -15,9 +15,32 @@ html, body {
 
 .mugshot {
   border-radius: 50%;
-  height: 150px;
+  /* height: 250px; */
+  width: 100%;
   padding:10px;
+  padding-top:20px;
 }
+
+
+.title_container_float {
+  width: 80%;
+  margin: auto;
+  padding: 10px;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.left_title {
+  width: 15%;
+  float: left;
+}
+
+.right_title {
+  margin-left: 15%;
+}
+
+
+
 
 .image_overlay {
   opacity:40%;
