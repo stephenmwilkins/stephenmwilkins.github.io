@@ -1,10 +1,10 @@
 savefig.dpi : 300
 path.simplify : True
-font.family : 'sans-serif'
-font.sans-serif : 'stixsans'
+font.family : sans-serif
+font.sans-serif : stixsans
 text.usetex : False
 font.size : 9
-mathtext.fontset : 'stixsans'
+mathtext.fontset : stixsans
 axes.linewidth : 0.5
 xtick.major.size : 3
 ytick.major.size : 3
@@ -12,8 +12,8 @@ xtick.minor.size : 1.5
 ytick.minor.size : 1.5
 xtick.labelsize : 7
 ytick.labelsize : 7
-ytick.direction : 'in'
-xtick.direction : 'in'
+ytick.direction : in
+xtick.direction : in
 ytick.minor.visible : True
 xtick.minor.visible : True
 xtick.major.width : 0.25
@@ -21,7 +21,7 @@ ytick.major.width : 0.25
 xtick.minor.width : 0.25
 ytick.minor.width : 0.25
 grid.alpha : 0.1
-grid.color : 'k'
-grid.linestyle : '-'
+grid.color : k
+grid.linestyle : -
 grid.linewidth : 0.8
 legend.frameon : False
