@@ -1,6 +1,5 @@
 savefig.dpi : 300
 path.simplify : True
-font.family : sans-serif
 font.sans-serif : stixsans
 text.usetex : False
 font.size : 9
