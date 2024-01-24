@@ -1,5 +1,4 @@
-
-I am a **Professor in Astronomy and the Public Understanding of Science** in the [School of Mathematical and Physical Sciences (MPS)]() at the [University of Sussex](). I currently serve as **Head of Astronomy** (Director of the Astronomy Centre), and the **Director of Outreach and Public Egagement (DOPE)**.
+<font size=3>I am a **Professor in Astronomy and the Public Understanding of Science** in the [School of Mathematical and Physical Sciences (MPS)]() at the [University of Sussex](). I currently serve as **Head of Astronomy** (Director of the Astronomy Centre), and the **Director of Outreach and Public Egagement (DOPE)**.</font>
 
 In my free time I am also the founder and chair of [Curiosity Sussex](https://curiositysussex.org.uk) a local science education charity in Sussex. I am also a trustee of [Science Projects](https://science-projects.org) a non-profit organisation bringing science to the public through interactive exhibits.
 
