@@ -104,6 +104,11 @@ document.addEventListener('DOMContentLoaded', () => {
   if (communityIntroduction) communityIntroduction.innerHTML = 'Founder and chair of <a href="https://curiositysussex.org.uk/" target="_blank" rel="noreferrer">Curiosity Sussex</a>, delivering free science activities across Sussex. I am also Astronomer in Residence at the <a href="https://www.the-observatory.org" target="_blank" rel="noreferrer">Observatory Science Centre</a> and trustee of <a href="https://science-projects.org/" target="_blank" rel="noreferrer">Science Projects</a>.';
   const communityTitle = document.querySelector('#engagement .engagement-groups article:nth-child(3) h3');
   if (communityTitle) communityTitle.textContent = 'Community science & discovery';
+  const communityImage = document.querySelector('#engagement .engagement-groups article:nth-child(3) .activity-image');
+  if (communityImage) {
+    communityImage.src = 'assets/osc.png';
+    communityImage.alt = 'Observatory Science Centre';
+  }
   const talksImage = document.querySelector('#engagement .engagement-groups article:first-child .activity-image');
   if (talksImage) {
     talksImage.src = 'assets/lectures.jpg';
@@ -126,8 +131,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const simulationTitle = simulations.querySelector('h3');
   const simulationCopy = simulations.querySelector('p');
+  const simulationImage = simulations.querySelector('.research-image');
   if (simulationTitle) simulationTitle.textContent = 'Simulations & synthetic observations';
   if (simulationCopy) simulationCopy.innerHTML = 'I combine galaxy simulations with <a href="https://synthesizer-project.github.io/" target="_blank" rel="noreferrer">Synthesizer</a> to turn theory into realistic observations.';
+  if (simulationImage) {
+    simulationImage.src = 'assets/TNG50_boxImage_z0_gas-shocks_small.png';
+    simulationImage.alt = 'TNG50 gas shocks simulation';
+  }
 
   const detail = {
     observations: {
@@ -138,8 +148,8 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     simulations: {
       title: 'Simulations & synthetic observations',
-      image: 'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=1400&q=90',
-      alt: 'Colourful nebula in space',
+      image: 'assets/TNG50_boxImage_z0_gas-shocks.png',
+      alt: 'TNG50 gas shocks simulation',
       body: `<p>I co-lead the <a href="https://flaresimulations.github.io/" target="_blank" rel="noreferrer">FLARES</a> project, a suite of cosmological simulations designed to explore the first galaxies and the environments in which they formed.</p><p>With <a href="https://synthesizer-project.github.io/" target="_blank" rel="noreferrer">Synthesizer</a>, we transform simulation output into realistic images and spectra. This creates a direct bridge between theoretical models and data from telescopes such as JWST, Euclid and ALMA.</p><p>By comparing virtual and real observations, we can test our understanding of the physical processes that shape galaxies.</p>`
     }
   };
