@@ -1,6 +1,0 @@
-﻿synthesizer
-===========
-
-.. currentmodule:: synthesizer
-
-.. automodule:: synthesizer
