@@ -1,0 +1,10 @@
+.engagement-intro { position: sticky; top: 2rem; }
+.engagement-intro p:not(.label) { max-width: 390px; }
+.engagement-groups { border-top: 1px solid #42658b; }
+.engagement-groups article { display: grid; grid-template-columns: 150px 1fr; gap: 20px; align-items: center; padding: 24px 0; margin: 0; border: 0; border-bottom: 1px solid #42658b; background: transparent; }
+.engagement-groups h3 { margin: 0 0 8px; font-size: clamp(1.2rem, 1.7vw, 1.55rem); color: #eef4fc; }
+.engagement-groups p { margin: 0; max-width: 520px; }
+.engagement-groups p.label { margin-bottom: 6px; }
+.activity-image { width: 132px; height: 132px; border-radius: 50%; object-fit: cover; border: 1px solid #78a5d4; }
+@media (max-width: 991px) { .engagement-intro { position: static; } }
+@media (max-width: 575px) { .engagement-groups article { grid-template-columns: 1fr; } }

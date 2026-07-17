@@ -1,0 +1,13 @@
+#research .research-strands > div:first-child,
+#research .research-strands > div:last-child { flex: 0 0 50%; max-width: 50%; }
+.research-strand--interactive { cursor: pointer; transition: background .2s ease; }
+.research-strand--interactive:hover, .research-strand--interactive:focus-visible { background: #0e2547; outline: none; }
+.research-strand--interactive::after { content: 'Explore research ↗'; display: block; margin-top: 20px; color: #a9c6ea; font-size: .75rem; letter-spacing: .06em; }
+.research-modal .modal-content { position: relative; overflow: hidden; border: 1px solid #42658b; border-radius: 18px; background: #091b35; color: #eef4fc; }
+.modal-close { position: absolute; z-index: 1; top: 14px; right: 18px; width: 36px; height: 36px; border: 1px solid #b8d1ef; border-radius: 50%; background: #091b35; color: #fff; font-size: 1.6rem; line-height: 1; }
+.modal-research-image { display: block; width: 100%; height: min(42vw, 350px); object-fit: cover; }
+.modal-copy { padding: 34px; }
+.modal-copy h2 { margin-bottom: 22px; }
+.modal-detail p { color: #c2d1e3; }
+.modal-detail a { color: #c4dcfb; }
+@media (max-width: 991px) { #research .research-strands > div:first-child, #research .research-strands > div:last-child { flex: 0 0 100%; max-width: 100%; } }
