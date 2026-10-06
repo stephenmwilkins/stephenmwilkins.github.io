@@ -294,11 +294,11 @@
 <div class="highlight"><pre>
 ----------
 SUMMARY OF GALAXY POPULATION
-Number of galaxies: 12722
+Number of galaxies: 12795
 Volume: 1.00e+06 Mpc**3
 Redshift: 0.0
-Total stellar mass density: 1.72e+08 Msun/Mpc**3
-Range of stellar masses: 1.00e+09 - 1.00e+11
+Total stellar mass density: 1.74e+08 Msun/Mpc**3
+Range of stellar masses: 1.00e+09 - 9.99e+10
 Age of the universe at z=0.0: 1.38e+04 Myr
 ----------
 
@@ -337,23 +337,6 @@ Age of the universe at z=0.0: 1.38e+04 Myr
 |  Save emission: True                                                                                        |
 |  Fixed parameters:                                                                                          |
 |    - fesc: 1e-10                                                                                            |
-|-------------------------------------------------------------------------------------------------------------|
-|  ESCAPED (stellar)                                                                                          |
-|-------------------------------------------------------------------------------------------------------------|
-|Transformer model:                                                                                           |
-|  Transformer: &lt;class &#39;synthesizer.emission_models.transformers.escape_fraction.EscapedFraction&#39;&gt;            |
-|  Apply to: incident                                                                                         |
-|  Save emission: True                                                                                        |
-|  Fixed parameters:                                                                                          |
-|    - fesc: 1e-10                                                                                            |
-|-------------------------------------------------------------------------------------------------------------|
-|  INCIDENT (stellar)                                                                                         |
-|-------------------------------------------------------------------------------------------------------------|
-|Extraction model:                                                                                            |
-|  Grid: test_grid                                                                                            |
-|  Extract key: incident                                                                                      |
-|  Use velocity shift: False                                                                                  |
-|  Save emission: True                                                                                        |
 |-------------------------------------------------------------------------------------------------------------|
 |  _EMERGENT_ATTENUATED (stellar)                                                                             |
 |-------------------------------------------------------------------------------------------------------------|
@@ -413,6 +396,23 @@ Age of the universe at z=0.0: 1.38e+04 Myr
 |Extraction model:                                                                                            |
 |  Grid: test_grid                                                                                            |
 |  Extract key: nebular_continuum                                                                             |
+|  Use velocity shift: False                                                                                  |
+|  Save emission: True                                                                                        |
+|-------------------------------------------------------------------------------------------------------------|
+|  ESCAPED (stellar)                                                                                          |
+|-------------------------------------------------------------------------------------------------------------|
+|Transformer model:                                                                                           |
+|  Transformer: &lt;class &#39;synthesizer.emission_models.transformers.escape_fraction.EscapedFraction&#39;&gt;            |
+|  Apply to: incident                                                                                         |
+|  Save emission: True                                                                                        |
+|  Fixed parameters:                                                                                          |
+|    - fesc: 1e-10                                                                                            |
+|-------------------------------------------------------------------------------------------------------------|
+|  INCIDENT (stellar)                                                                                         |
+|-------------------------------------------------------------------------------------------------------------|
+|Extraction model:                                                                                            |
+|  Grid: test_grid                                                                                            |
+|  Extract key: incident                                                                                      |
 |  Use velocity shift: False                                                                                  |
 |  Save emission: True                                                                                        |
 |=============================================================================================================|
