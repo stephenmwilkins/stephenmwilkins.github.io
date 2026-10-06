@@ -1,0 +1,236 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "5121f205",
+   "metadata": {},
+   "source": [
+    "# Models\n",
+    "\n",
+    "A key component of `synthpop` is the concept of a **model**. Models describe the physical properties of a galaxy population and define the assumptions used to generate synthetic galaxies.\n",
+    "\n",
+    "For stellar populations, a model typically specifies:\n",
+    "\n",
+    "- The stellar mass function\n",
+    "- The star formation history\n",
+    "- The chemical enrichment (metallicity) history\n",
+    "- Dust attenuation\n",
+    "\n",
+    "Both `synthpop` and `synthesizer` provide the machinery required to construct and work with these models. Together, they enable users to generate physically motivated galaxy populations and predict their observable properties.\n",
+    "\n",
+    "`synthpop` also includes a variety of pre-made models."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "78ca28c5",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from astropy.cosmology import Planck18 as cosmo\n",
+    "from astropy.cosmology import z_at_value\n",
+    "import astropy.units as u\n",
+    "import numpy as np\n",
+    "import matplotlib.pyplot as plt\n",
+    "from synthesizer.parametric import SFH, Stars, ZDist\n",
+    "from synthpop.distribution_functions import Schechter\n",
+    "from synthpop.models import Model, Spheroid, Default, Constant\n",
+    "from unyt import yr, Myr, Msun, Gyr, unyt_quantity, Mpc, dimensionless\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "afef617a",
+   "metadata": {},
+   "source": [
+    "## Galaxy Stellar Mass Function\n",
+    "\n",
+    "The first component that is needed for `synthpop` "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "6aed7d07",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "\n",
+    "# Define the galaxy stellar mass function (GSMF) using a Schechter function\n",
+    "x_star = 10**10.745 * Msun     \n",
+    "phi_star = 10**(-2.437) * Mpc**-3  \n",
+    "alpha = -1.465\n",
+    "gsmf = Schechter(x_star=x_star, alpha=alpha, phi_star=phi_star)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "bd49e444",
+   "metadata": {},
+   "source": [
+    "## Star formation and metal enrichment history"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "bf87c1d8",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "\n",
+    "# Define a delta function for metallicity\n",
+    "metal_dist_function = ZDist.DeltaConstant\n",
+    "\n",
+    "metal_dist_parameters = {\n",
+    "    \"log10metallicity\": -2.5\n",
+    "}\n",
+    "\n",
+    "\n",
+    "age_of_universe = unyt_quantity(cosmo.age(0).value, str(cosmo.age(0).unit))\n",
+    "\n",
+    "sfh_function = SFH.LogNormal\n",
+    "\n",
+    "def peak_age_function(mass, age_of_Universe=1.37E10 * yr):\n",
+    "\n",
+    "    value = (mass/(1E9*Msun))**2.5 * 1E9 + np.random.normal(0, 1e9)\n",
+    "\n",
+    "    return np.min((value, age_of_Universe.to('yr').value)) * yr\n",
+    "\n",
+    "def tau_function(mass):\n",
+    "    return np.clip(np.random.normal(0.6, 0.1) * dimensionless, 0.1, 1.0)\n",
+    "\n",
+    "sfh_parameters = {\n",
+    "    \"tau\": 0.6 * dimensionless,\n",
+    "    \"peak_age\": 1e10 * yr,\n",
+    "    \"max_age\": age_of_universe\n",
+    "}\n",
+    "\n",
+    "# sfh_parameters = {\n",
+    "#     \"tau\": tau_function,\n",
+    "#     \"peak_age\": peak_age_function,\n",
+    "#     \"max_age\": age_of_universe\n",
+    "# }\n",
+    "\n",
+    "\n",
+    "sfh_function = SFH.Constant\n",
+    "\n",
+    "sfh_parameters = {\n",
+    "    \"max_age\": 10000 * Myr\n",
+    "}\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "80a4bfb8",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "plt.plot(np.linspace(0, 10000, 100), sfh_function(**sfh_parameters).get_sfr(np.linspace(0, 10000, 100)*Myr))\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "cd8c34ce",
+   "metadata": {},
+   "source": [
+    "## Dust attenuation\n",
+    "\n",
+    "Our model can also incorporate a description of dust attenuation, parameterised by the $V$-band optical depth $\\tau_V$, affecting the stellar population. This parameter could be taken as constant; however, a more realistic treatment would allow the dust attenuation to increase with stellar mass, with additional scatter about the mean relation.\n",
+    "\n",
+    "In the simple model implemented here, the dust attenuation is assumed to increase linearly with stellar mass above $10^{9},M_{\\odot}$ and to be zero below this threshold. Random scatter is also included, with an amplitude proportional to the characteristic value of $\\tau_V$."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "5a2e8b1c",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Define dust attenuation as a function of stellar mass\n",
+    "def dust_attenuation_function(mass):\n",
+    "\n",
+    "    tau_v = 0.1 * ((mass-1E9*Msun)/(1E9*Msun))  # Example: tau_v decreases with mass\n",
+    "    r = np.random.normal(0, 0.5, size=mass.shape)  # Add some scatter\n",
+    "    return np.maximum(0.0, tau_v * (1 + r)) * dimensionless\n",
+    "\n",
+    "\n",
+    "log_masses = np.random.uniform(8, 11, size=100)\n",
+    "masses = (10 ** log_masses) * Msun\n",
+    "tau_v_values = dust_attenuation_function(masses)\n",
+    "\n",
+    "plt.scatter(masses/Msun, tau_v_values)\n",
+    "plt.xscale('log')\n",
+    "plt.xlabel('Stellar Mass (Msun)')\n",
+    "plt.ylabel('Dust Attenuation (tau_v)')\n",
+    "plt.title('Dust Attenuation vs Stellar Mass')\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "42ffe342",
+   "metadata": {},
+   "source": [
+    "## Creating a Model\n",
+    "\n",
+    "For convenience, we can combine all of these model components into an instance of a `Model` class, which can then be passed to our galaxy population generator. The `Model` class also provides additional utility methods for visualising and inspecting the model."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "840910cc",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Define the Model with the specified components\n",
+    "model = Model(        \n",
+    "    galaxy_stellar_mass_function=gsmf,\n",
+    "    sfh_function=sfh_function,\n",
+    "    sfh_parameters=sfh_parameters,\n",
+    "    metal_dist_function=metal_dist_function,\n",
+    "    metal_dist_parameters=metal_dist_parameters,\n",
+    "    dust_attenuation_function=dust_attenuation_function,\n",
+    ")\n",
+    "\n",
+    "# Visualise the SFH for a galaxy of mass 1e10 Msun over the age of the universe\n",
+    "ages = np.linspace(0, 10000, 100) * Myr\n",
+    "mass = 1e10 * Msun\n",
+    "model.plot_sfh(mass, ages)\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "47d91053",
+   "metadata": {},
+   "source": [
+    "## Pre-built models\n",
+    "\n",
+    "`Synthpop` contains a number of pre-built models, which combine a galaxy stellar mass function (GSMF), or sub-halo abundance matching (SHAM) model with a model which describes the star formation and metal enrichment history and dust attenuation. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "4276f33f",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "ages = np.linspace(0, 14000, 100) * Myr\n",
+    "mass = 1e10 * Msun\n",
+    "\n",
+    "for model in [Spheroid(), Default(), Constant()]:\n",
+    "    model.plot_sfh(mass, ages)"
+   ]
+  }
+ ],
+ "metadata": {},
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
